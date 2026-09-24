@@ -6,5 +6,13 @@ class TickService {
   Future<void>addTick(Tick tick)async{
    await tickBox.add(tick);
   }
-  
+  List<Tick>getTick(){
+    return tickBox.values.toList();
+  }
+  Future<void>updateTick(int key,Tick tick)async{
+    await tickBox.put(key, tick);
+  }
+  Future<void>deleteTick(int key)async{
+    await tickBox.delete(key);
+  }
 }

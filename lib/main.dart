@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:todo/add_todo.dart';
+import 'package:todo/model/tick_model.dart';
 void main() async{
-  runApp(const MyApp());
+  
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  await Hive.openBox("tick");
-
+  Hive.registerAdapter(TickAdapter());
+  await Hive.openBox<Tick>("ticks");
+runApp(const MyApp());
 
 }
 
@@ -17,6 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      home: AddTodo(),
  
     );
   }

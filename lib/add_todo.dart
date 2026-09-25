@@ -86,40 +86,59 @@ class _AddTodoState extends State<AddTodo> {
                           },
                           icon: Icon(Icons.delete),
                         ),
-                        IconButton(onPressed: () async{
-                          final editTitleController = TextEditingController(text: tick.title);
-                          final editDescriptioncontroller = TextEditingController(text: tick.description);
-                          showDialog(context: context, builder: (context){
-                            return AlertDialog(
-                             title: Text("Edit todo"),
-                             content: Column(
-                              mainAxisSize: MainAxisSize.min,
-                               children: [
-                                 TextField(
-                                  controller: editTitleController,
-                                  decoration: InputDecoration(
-                                    hint: Text("Title")
-                                  ),
-                                 ),
-                                 TextField(
-                                  controller: editDescriptioncontroller,
-                                  decoration: InputDecoration(
-                                    hintText: "Description"
-                                  ),
-                                 )
-                                
-                               ],
-                             ),
-                             actions: [
-                              ElevatedButton(onPressed: (){
-                                     final newTitle = editTitleController.text.trim();
-                                     print(newTitle);
-                              }, child: Text("Update"))
-                             ],
+                        IconButton(
+                          onPressed: () async {
+                            final editTitleController = TextEditingController(
+                              text: tick.title,
                             );
-                          }
-                          );
-                        }, icon: Icon(Icons.edit)),
+                            final editDescriptioncontroller =
+                                TextEditingController(text: tick.description);
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text("Edit todo"),
+                                  content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      TextField(
+                                        controller: editTitleController,
+                                        decoration: InputDecoration(
+                                          hint: Text("Title"),
+                                        ),
+                                      ),
+                                      TextField(
+                                        controller: editDescriptioncontroller,
+                                        decoration: InputDecoration(
+                                          hintText: "Description",
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  actions: [
+                                    ElevatedButton(
+                                      onPressed: () async{
+                                        final newTitle = editTitleController
+                                            .text
+                                            .trim();
+                                        final newDescription= editDescriptioncontroller.text.trim();
+                                            final updatedTick = Tick(title: newTitle,description: newDescription
+                                            );
+                                            await service.updateTick(tick.key, updatedTick);
+                                            setState(() {
+                                              tickList();
+                                            });
+                                            Navigator.pop(context);
+                                      },
+                                      child: Text("Update"),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          icon: Icon(Icons.edit),
+                        ),
                       ],
                     ),
                   ),
